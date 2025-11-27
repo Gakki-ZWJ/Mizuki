@@ -1,4 +1,4 @@
-name: 代码质量
+name: Code quality
 
 on:
   push:
