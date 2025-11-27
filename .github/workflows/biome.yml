@@ -1,10 +1,10 @@
-name: Code quality
+name: 代码质量
 
 on:
   push:
-    branches: [ main ] # Adjust branches as needed
+    branches: [ master ] # Adjust branches as needed
   pull_request:
-    branches: [ main ] # Adjust branches as needed
+    branches: [ master ] # Adjust branches as needed
 
 jobs:
   quality:
