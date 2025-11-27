@@ -258,8 +258,8 @@ export const navBarConfig: NavBarConfig = {
 					// external: true,
 					// icon: "mdi:git"，
 				// },
-			],
-		},
+			// ],
+		// },
 		{
 			name: "Gallery",
 			url: "/albums/",
