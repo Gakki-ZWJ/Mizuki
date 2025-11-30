@@ -19,8 +19,8 @@ import {
 import {
 	BANNER_HEIGHT,
 	BANNER_HEIGHT_EXTEND,
-	BANNER_HEIGHT_HOME,
-	MAIN_PANEL_OVERLAPS_BANNER_HEIGHT,
+	// BANNER_HEIGHT_HOME,
+	// MAIN_PANEL_OVERLAPS_BANNER_HEIGHT,
 } from "../constants/constants";
 import { widgetManager } from "../utils/widget-manager";
 import Layout from "./Layout.astro";
@@ -36,19 +36,19 @@ interface Props {
 }
 
 // 类型守卫函数
-const isBannerSrcObject = (
-	src:
-		| string
-		| string[]
-		| { desktop?: string | string[]; mobile?: string | string[] },
-): src is { desktop?: string | string[]; mobile?: string | string[] } => {
-	return (
-		typeof src === "object" &&
-		src !== null &&
-		!Array.isArray(src) &&
-		("desktop" in src || "mobile" in src)
-	);
-};
+// const isBannerSrcObject = (
+// 	src:
+// 		| string
+// 		| string[]
+// 		| { desktop?: string | string[]; mobile?: string | string[] },
+// ): src is { desktop?: string | string[]; mobile?: string | string[] } => {
+// 	return (
+// 		typeof src === "object" &&
+// 		src !== null &&
+// 		!Array.isArray(src) &&
+// 		("desktop" in src || "mobile" in src)
+// 	);
+// };
 
 // 获取banner图片的辅助函数
 const getBannerImages = async () => {
@@ -118,7 +118,7 @@ const mainPanelTop =
 	siteConfig.wallpaperMode.defaultMode === "banner"
 		? `${BANNER_HEIGHT}vh`
 		: "5.5rem";
-const mobileNonHomeMainTop = !isHomePage ? "5.5rem" : mainPanelTop;
+// const mobileNonHomeMainTop = !isHomePage ? "5.5rem" : mainPanelTop;
 
 // 当默认模式不是 banner 时，主内容区域应该始终从顶栏下面开始
 const finalMainPanelTop =
@@ -136,8 +136,8 @@ const isBothSidebarMode = sidebarLayoutConfig.position === "both";
 // 检查右侧边栏是否有组件
 const hasRightSidebarComponents =
 	(isBothSidebarMode &&
-		widgetManager.getComponentsByPosition("top", "right").length > 0) ||
-	widgetManager.getComponentsByPosition("sticky", "right").length > 0;
+		(widgetManager.getComponentsByPosition("top", "right").length > 0 ||
+		widgetManager.getComponentsByPosition("sticky", "right").length > 0));
 
 // 检查默认布局模式，如果是 grid 模式，右侧边栏初始就应该隐藏
 const defaultPostListLayout = siteConfig.postListLayout?.defaultMode || "list";
@@ -208,10 +208,10 @@ const transparentClass = shouldEnableTransparency
 		const body = document.body;
 		
 		// 定义 banner 高度常量（与 constants.ts 保持一致）
-		const BANNER_HEIGHT = 35;
-		const BANNER_HEIGHT_EXTEND = 30;
-		const BANNER_HEIGHT_HOME = BANNER_HEIGHT + BANNER_HEIGHT_EXTEND;
-		const MAIN_PANEL_OVERLAPS_BANNER_HEIGHT = 3.5;
+		// const BANNER_HEIGHT = 35;
+		// const BANNER_HEIGHT_EXTEND = 30;
+		// const BANNER_HEIGHT_HOME = BANNER_HEIGHT + BANNER_HEIGHT_EXTEND;
+		// const MAIN_PANEL_OVERLAPS_BANNER_HEIGHT = 3.5;
 		
 		// 立即应用 body 类，确保首次渲染就是正确的状态
 		switch(wallpaperMode) {
@@ -280,7 +280,7 @@ const transparentClass = shouldEnableTransparency
 	})();
 	
 	// 根据壁纸模式动态设置 banner 和全屏壁纸的显示
-	const wallpaperMode = localStorage.getItem('wallpaperMode') || defaultWallpaperMode;
+	// const wallpaperMode = localStorage.getItem('wallpaperMode') || defaultWallpaperMode;
 	
 	// 在 DOM 加载后执行
 	if (document.readyState === 'loading') {
@@ -397,26 +397,31 @@ const transparentClass = shouldEnableTransparency
 	}
 	
 	// 监听壁纸模式变化，立即应用（不重载页面）
-	window.addEventListener('wallpaper-mode-change', function(event) {
+	window.addEventListener('wallpaper-mode-change', function(_event) {
 		applyWallpaperMode();
 	});
 	
 	// 支持 Swup 页面过渡 - 在内容替换之前就应用布局，避免闪烁
 	function setupSwupLayoutSync() {
+		// @ts-ignore
 		if (typeof window !== 'undefined' && window.swup) {
 			// 关键：在 content:replace 之前（animation:out:start）就准备好布局状态
+			// @ts-ignore
 			window.swup.hooks.on('animation:out:start', function() {
 				// 保存当前布局状态，以便在新页面中立即应用
 				const savedLayout = localStorage.getItem('postListLayout');
 				if (savedLayout) {
+					// @ts-ignore
 					window.__pendingLayoutMode = savedLayout;
 				}
 			});
 			
 			// 在内容替换后立即应用布局，不等待其他脚本
+			// @ts-ignore
 			window.swup.hooks.on('content:replace', function() {
 				const mainGrid = document.getElementById('main-grid');
 				if (mainGrid) {
+					// @ts-ignore
 					const currentLayout = window.__pendingLayoutMode || localStorage.getItem('postListLayout') || defaultPostListLayout;
 					mainGrid.setAttribute('data-layout-mode', currentLayout);
 					
@@ -447,6 +452,7 @@ const transparentClass = shouldEnableTransparency
 					}
 					
 					// 清除临时状态
+					// @ts-ignore
 					delete window.__pendingLayoutMode;
 				}
 			});
