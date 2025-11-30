@@ -236,56 +236,56 @@ export const navBarConfig: NavBarConfig = {
 		LinkPreset.Archive,
 		// 支持自定义导航栏链接,并且支持多级菜单,3.1版本新加
 		// {
-			// name: "Links",
-			// url: "/links/",
-			// icon: "material-symbols:link",
-			// children: [
-				// {
-					// name: "GitHub",
-					// url: "https://github.com/matsuzaka-yuki/Mizuki",
-					// external: true,
-					// icon: "fa6-brands:github",
-				// },
-				// {
-					// name: "Bilibili",
-					// url: "https://space.bilibili.com/701864046",
-					// external: true,
-					// icon: "fa6-brands:bilibili"，
-				// },
-				// {
-					// name: "Gitee"，
-					// url: "https://gitee.com/matsuzakayuki/Mizuki",
-					// external: true,
-					// icon: "mdi:git"，
-				// },
-			// ],
+		// name: "Links",
+		// url: "/links/",
+		// icon: "material-symbols:link",
+		// children: [
+		// {
+		// name: "GitHub",
+		// url: "https://github.com/matsuzaka-yuki/Mizuki",
+		// external: true,
+		// icon: "fa6-brands:github",
+		// },
+		// {
+		// name: "Bilibili",
+		// url: "https://space.bilibili.com/701864046",
+		// external: true,
+		// icon: "fa6-brands:bilibili"，
+		// },
+		// {
+		// name: "Gitee"，
+		// url: "https://gitee.com/matsuzakayuki/Mizuki",
+		// external: true,
+		// icon: "mdi:git"，
+		// },
+		// ],
 		// },
 		{
 			name: "Gallery",
 			url: "/albums/",
 			icon: "material-symbols:photo-library",
 			// children: [
-				// {
-					// name: "Anime",
-					// url: "/anime/",
-					// icon: "material-symbols:movie",
-				// },
-				// {
-					// name: "Diary"，
-					// url: "/diary/",
-					// icon: "material-symbols:book",
-				// },
-				// {
-					// name: "Gallery"，
-					// url: "/albums/",
-					// icon: "material-symbols:photo-library",
-				// },
-				// {
-					// name: "Devices"，
-					// url: "devices/",
-					// icon: "material-symbols:devices",
-					// external: false,
-				// },
+			// {
+			// name: "Anime",
+			// url: "/anime/",
+			// icon: "material-symbols:movie",
+			// },
+			// {
+			// name: "Diary"，
+			// url: "/diary/",
+			// icon: "material-symbols:book",
+			// },
+			// {
+			// name: "Gallery"，
+			// url: "/albums/",
+			// icon: "material-symbols:photo-library",
+			// },
+			// {
+			// name: "Devices"，
+			// url: "devices/",
+			// icon: "material-symbols:devices",
+			// external: false,
+			// },
 			// ],
 		},
 		{
@@ -293,39 +293,39 @@ export const navBarConfig: NavBarConfig = {
 			url: "/about/",
 			icon: "material-symbols:person",
 			// children: [
-				// {
-					// name: "About",
-					// url: "/about/",
-					// icon: "material-symbols:person",
-				// },
-				// {
-					// name: "Friends"，
-					// url: "/friends/",
-					// icon: "material-symbols:group",
-				// },
+			// {
+			// name: "About",
+			// url: "/about/",
+			// icon: "material-symbols:person",
+			// },
+			// {
+			// name: "Friends"，
+			// url: "/friends/",
+			// icon: "material-symbols:group",
+			// },
 			// ],
 		},
 		// {
-			// name: "Others"，
-			// url: "#",
-			// icon: "material-symbols:more-horiz",
-			// children: [
-				// {
-					// name: "项目"，
-					// url: "/项目/",
-					// icon: "material-symbols:work",
-				// },
-				// {
-					// name: "Skills"，
-					// url: "/skills/",
-					// icon: "material-symbols:psychology",
-				// },
-				// {
-					// name: "Timeline"，
-					// url: "/timeline/",
-					// icon: "material-symbols:timeline",
-				// },
-			// ],
+		// name: "Others"，
+		// url: "#",
+		// icon: "material-symbols:more-horiz",
+		// children: [
+		// {
+		// name: "项目"，
+		// url: "/项目/",
+		// icon: "material-symbols:work",
+		// },
+		// {
+		// name: "Skills"，
+		// url: "/skills/",
+		// icon: "material-symbols:psychology",
+		// },
+		// {
+		// name: "Timeline"，
+		// url: "/timeline/",
+		// icon: "material-symbols:timeline",
+		// },
+		// ],
 		// },
 	],
 };
@@ -606,16 +606,11 @@ export const pioConfig: import("./types/config").PioConfig = {
 	position: "left", // 默认位置在右侧
 	width: 224, // 默认宽度
 	height: 200, // 默认高度
-	mode: "draggable", // 默认为可拖拽模式
+	mode: "fixed", // 默认为可拖拽模式
 	hiddenOnMobile: true, // 默认在移动设备上隐藏
 	dialog: {
 		welcome: "欢迎来到我的播客!", // 欢迎词
-		touch: [
-			"你在干什么?",
-			"再摸我就报警了!",
-			"HENTAI!",
-			"不要欺负我啦!",
-		], // 触摸提示
+		touch: ["你在干什么?", "再摸我就报警了!", "HENTAI!", "不要欺负我啦!"], // 触摸提示
 		home: "点击这里回到首页!", // 首页提示
 		skin: ["想看看我的新服装吗?", "新衣服真漂亮~"], // 换装提示
 		close: "QWQ 有缘再会吧~", // 关闭提示
