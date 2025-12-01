@@ -2,31 +2,14 @@ import { execSync } from "child_process";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { loadEnv } from "./load-env.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, "..");
 
-// 加载 .env 文件
-const envPath = path.join(rootDir, ".env");
-if (fs.existsSync(envPath)) {
-	const envContent = fs.readFileSync(envPath, "utf-8");
-	envContent.split("\n").forEach((line) => {
-		line = line.trim();
-		// 跳过注释和空行
-		if (!line || line.startsWith("#")) return;
-
-		const match = line.match(/^([^=]+)=(.*)$/);
-		if (match) {
-			const key = match[1].trim();
-			let value = match[2].trim();
-			// 移除引号
-			value = value.replace(/^["']|["']$/g, "");
-			process.env[key] = value;
-		}
-	});
-	console.log("Loaded .env configuration file\n");
-}
+loadEnv();
+console.log("Loaded .env configuration file\n");
 
 // 从环境变量读取配置
 const ENABLE_CONTENT_SYNC = process.env.ENABLE_CONTENT_SYNC !== "false"; // 默认启用

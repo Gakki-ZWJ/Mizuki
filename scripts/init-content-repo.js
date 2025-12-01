@@ -10,32 +10,14 @@ import fs from "fs";
 import path from "path";
 import readline from "readline";
 import { fileURLToPath } from "url";
+import { loadEnv } from "./load-env.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, "..");
 
-// 加载 .env 文件的辅助函数
-function loadEnvFile(envPath) {
-	if (!fs.existsSync(envPath)) return;
-
-	const envContent = fs.readFileSync(envPath, "utf-8");
-	envContent.split("\n").forEach((line) => {
-		line = line.trim();
-		if (!line || line.startsWith("#")) return;
-
-		const match = line.match(/^([^=]+)=(.*)$/);
-		if (match) {
-			const key = match[1].trim();
-			let value = match[2].trim();
-			value = value.replace(/^["']|["']$/g, "");
-			process.env[key] = value;
-		}
-	});
-}
-
-// 加载现有的 .env 文件
-loadEnvFile(path.join(rootDir, ".env"));
+loadEnv();
+console.log("Loaded .env configuration file\n");
 
 const rl = readline.createInterface({
 	input: process.stdin,
