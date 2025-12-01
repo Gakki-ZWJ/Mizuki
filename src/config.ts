@@ -391,7 +391,7 @@ export const commentConfig: CommentConfig = {
 
 export const announcementConfig: AnnouncementConfig = {
 	title: "告示板", // 公告标题
-	content: "欢迎来到我的博客.", // 公告内容
+	content: "赞美太阳☀", // 公告内容
 	closable: true, // 允许用户关闭公告
 	link: {
 		enable: false, // 启用链接
@@ -609,7 +609,7 @@ export const pioConfig: import("./types/config").PioConfig = {
 	mode: "fixed", // 默认为可拖拽模式
 	hiddenOnMobile: true, // 默认在移动设备上隐藏
 	dialog: {
-		welcome: "欢迎来到我的播客!", // 欢迎词
+		welcome: "欢迎来到我的小屋!", // 欢迎词
 		touch: ["你在干什么?", "再摸我就报警了!", "HENTAI!", "不要欺负我啦!"], // 触摸提示
 		home: "点击这里回到首页!", // 首页提示
 		skin: ["想看看我的新服装吗?", "新衣服真漂亮~"], // 换装提示
