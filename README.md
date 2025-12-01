@@ -26,10 +26,10 @@
 [**📝 用户文档**](https://docs.mizuki.mysqil.com/)
 
 🌏 README 语言
-[**~~English~~**](./README.md) /
+[**~~English~~**] /
 [**中文**](./README.zh.md) /
-[**~~日本語~~**](./docs/README.ja.md) /
-[**~~中文繁体~~**](./docs/README.tw.md) /
+[**~~日本語~~**] /
+[**~~中文繁体~~**] /
 
 ![Configuration](configuration.svg)
 
