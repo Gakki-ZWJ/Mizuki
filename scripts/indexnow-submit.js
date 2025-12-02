@@ -16,7 +16,7 @@ function parseSitemap(sitemapPath) {
 	const urlMatches = sitemapContent.match(/<loc>(.*?)<\/loc>/g);
 
 	if (!urlMatches) {
-		console.error("❌ 未在 sitemap 中找到任何 URL");
+		console.error("❌ No URLs found in sitemap");
 		return [];
 	}
 
@@ -25,14 +25,14 @@ function parseSitemap(sitemapPath) {
 		return url;
 	});
 
-	console.log(`✓ 从 sitemap 中解析到 ${urls.length} 个 URL`);
+	console.log(`✓ Parsed ${urls.length} URLs from sitemap`);
 	return urls;
 }
 
 // 提交 URL 到 Bing IndexNow API
 async function submitToIndexNow(urls) {
 	if (!urls || urls.length === 0) {
-		console.log("⚠ 没有 URL 需要提交");
+		console.log("⚠ No URLs to submit");
 		return;
 	}
 
@@ -49,15 +49,17 @@ async function submitToIndexNow(urls) {
 	const keyLocation = `https://${host}/${apiKey}.txt`;
 
 	if (!apiKey || !host) {
-		console.error("❌ 缺少必要的环境变量: INDEXNOW_KEY 或 INDEXNOW_HOST");
-		console.error("   请在 .env 文件中配置这些变量");
+		console.error(
+			"❌ Missing required environment variables: INDEXNOW_KEY or INDEXNOW_HOST",
+		);
+		console.error("   Please configure these variables in the .env file");
 		return;
 	}
 
 	for (let i = 0; i < urlChunks.length; i++) {
 		const chunk = urlChunks[i];
 		console.log(
-			`\n📊 提交第 ${i + 1}/${urlChunks.length} 批 URL (${chunk.length} 个 URL)...`,
+			`\n📊 Submitting batch ${i + 1}/${urlChunks.length} URLs (${chunk.length} URLs)...`,
 		);
 
 		try {
@@ -75,54 +77,69 @@ async function submitToIndexNow(urls) {
 			});
 
 			if (response.status === 200) {
-				console.log(`✅ 第 ${i + 1} 批 URL 提交成功`);
+				console.log(`✅ Batch ${i + 1} URLs submitted successfully`);
 			} else if (response.status === 202) {
 				console.warn(
-					`⚠ 第 ${i + 1} 批 URL 请求被接受但仍在处理中 (状态码: ${response.status})`,
+					`⚠ Batch ${i + 1} request accepted but still processing (Status code: ${response.status})`,
 				);
-				console.warn("这不是标准的成功状态码，可能需要检查 API 文档");
+				console.warn(
+					"This is not a standard success status code, you may need to check API documentation",
+				);
 			} else {
 				console.error(
-					`❌ 第 ${i + 1} 批 URL 提交失败，状态码: ${response.status}`,
+					`❌ Batch ${i + 1} URLs submission failed, Status code: ${response.status}`,
 				);
 				const responseBody = await response.text();
-				console.error(`   响应内容: ${responseBody}`);
+				console.error(`   Response body: ${responseBody}`);
 
 				// 根据状态码提供更详细的错误信息
 				switch (response.status) {
 					case 400:
-						console.error("   错误: 请求格式无效");
+						console.error("   Error: Request format is invalid");
 						break;
 					case 403:
-						console.error("   错误: API 密钥无效或验证失败");
+						console.error(
+							"   Error: API key is invalid or authentication failed",
+						);
 						break;
 					case 422:
-						console.error("   错误: URL 不属于指定主机或密钥不匹配");
+						console.error(
+							"   Error: URL does not belong to specified host or key mismatch",
+						);
 						break;
 					case 429:
-						console.error("   错误: 请求过于频繁，可能被视为垃圾信息");
+						console.error(
+							"   Error: Request too frequent, may be considered as spam",
+						);
 						break;
 					default:
-						console.error(`   错误: 其他错误，状态码 ${response.status}`);
+						console.error(
+							`   Error: Other error, status code ${response.status}`,
+						);
 				}
 			}
 		} catch (error) {
-			console.error(`❌ 第 ${i + 1} 批 URL 提交过程中发生错误:`, error.message);
+			console.error(
+				`❌ Error occurred during batch ${i + 1} URL submission:`,
+				error.message,
+			);
 		}
 	}
 }
 
 // 主函数
 async function main() {
-	console.log("🚀 开始执行 Bing IndexNow URL 提交任务...\n");
+	console.log("🚀 Starting Bing IndexNow URL submission task...\n");
 
 	// 构建输出目录路径
 	const distDir = path.join(__dirname, "../dist");
 	const sitemapPath = path.join(distDir, "sitemap-0.xml");
 
 	if (!fs.existsSync(sitemapPath)) {
-		console.error(`❌ 未找到 sitemap 文件: ${sitemapPath}`);
-		console.error("   请确保在构建项目后再执行此脚本");
+		console.error(`❌ Sitemap file not found: ${sitemapPath}`);
+		console.error(
+			"   Please ensure the project is built before running this script",
+		);
 		process.exit(1);
 	}
 
@@ -131,7 +148,7 @@ async function main() {
 		const urls = parseSitemap(sitemapPath);
 
 		if (urls.length === 0) {
-			console.log("⚠ sitemap 中没有找到任何 URL，跳过提交");
+			console.log("⚠ No URLs found in sitemap, skipping submission");
 			return;
 		}
 
@@ -142,19 +159,19 @@ async function main() {
 				url.startsWith(`https://${host}/`) || url.startsWith(`http://${host}/`),
 		);
 
-		console.log(`✓ 过滤后剩余 ${filteredUrls.length} 个有效 URL`);
+		console.log(`✓ Filtered to ${filteredUrls.length} valid URLs`);
 
 		if (filteredUrls.length === 0) {
-			console.log("⚠ 没有找到与主机匹配的 URL，跳过提交");
+			console.log("⚠ No URLs matching the host found, skipping submission");
 			return;
 		}
 
 		// 提交 URL 到 IndexNow
 		await submitToIndexNow(filteredUrls);
 
-		console.log("\n🎉 Bing IndexNow URL 提交任务完成！");
+		console.log("\n🎉 Bing IndexNow URL submission task completed!");
 	} catch (error) {
-		console.error("❌ 执行过程中发生错误:", error.message);
+		console.error("❌ Error occurred during execution:", error.message);
 		process.exit(1);
 	}
 }
