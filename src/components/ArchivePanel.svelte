@@ -3,7 +3,7 @@ import { onMount } from "svelte";
 
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
-import { getPostUrlByPermalink, getPostUrlBySlug } from "../utils/url-utils";
+import { getPostUrl } from "../utils/url-utils";
 
 export let tags: string[];
 export let categories: string[];
@@ -23,16 +23,6 @@ interface Post {
 		published: Date;
 		permalink?: string; // 添加 permalink 字段
 	};
-}
-
-// 辅助函数：根据文章数据生成正确的 URL
-function getPostUrl(post: Post): string {
-	// 如果文章有自定义固定链接，优先使用固定链接
-	if (post.data.permalink) {
-		return getPostUrlByPermalink(post.data.permalink);
-	}
-	// 否则使用默认的 slug 路径
-	return getPostUrlBySlug(post.id);
 }
 
 interface Group {
