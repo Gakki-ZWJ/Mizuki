@@ -1,5 +1,6 @@
 ---
 import BackToTop from "@components/control/BackToTop.astro";
+import FloatingTOC from "@components/control/FloatingTOC.astro";
 import Footer from "@components/Footer.astro";
 import RightSideBar from "@components/layout/RightSideBar.astro";
 import Navbar from "@components/Navbar.astro";
@@ -24,6 +25,11 @@ import {
 } from "../constants/constants";
 import { widgetManager } from "../utils/widget-manager";
 import Layout from "./Layout.astro";
+
+// TOC模式配置
+const tocMode = siteConfig.toc.mode || "float";
+const isFloatTOC = tocMode === "float";
+const isSidebarTOC = tocMode === "sidebar";
 
 interface Props {
 	title?: string;
@@ -135,9 +141,9 @@ const isBothSidebarMode = sidebarLayoutConfig.position === "both";
 
 // 检查右侧边栏是否有组件
 const hasRightSidebarComponents =
-	(isBothSidebarMode &&
-		(widgetManager.getComponentsByPosition("top", "right").length > 0 ||
-		widgetManager.getComponentsByPosition("sticky", "right").length > 0));
+	isBothSidebarMode &&
+	(widgetManager.getComponentsByPosition("top", "right").length > 0 ||
+		widgetManager.getComponentsByPosition("sticky", "right").length > 0);
 
 // 检查默认布局模式，如果是 grid 模式，右侧边栏初始就应该隐藏
 const defaultPostListLayout = siteConfig.postListLayout?.defaultMode || "list";
@@ -736,28 +742,30 @@ const transparentClass = shouldEnableTransparency
         </div>
 
         <BackToTop></BackToTop>
+        {siteConfig.toc.enable && isFloatTOC && <FloatingTOC />}
     </div>
 </div>
 
-<!-- The things that should be under the banner, only the TOC for now -->
-<div class="absolute w-full z-0 hidden 2xl:block">
-    <div class="relative max-w-[var(--page-width)] mx-auto">
-        <!-- TOC component -->
-        {siteConfig.toc.enable && <div id="toc-wrapper" class:list={["hidden lg:block transition absolute top-0 w-[var(--toc-width)] items-center",
-            "-right-[var(--toc-width)]",
-            {"toc-hide": siteConfig.wallpaperMode.defaultMode === "banner"}]}
-        >
-            <div id="toc-inner-wrapper" class="fixed top-14 w-[var(--toc-width)] h-[calc(100vh_-_20rem)] overflow-y-scroll overflow-x-hidden hide-scrollbar">
-                <div id="toc" class="w-full h-full transition-swup-fade ">       
-                    <TOC headings={headings}></TOC>
+<!-- 侧边栏TOC模式 -->
+{siteConfig.toc.enable && isSidebarTOC && (
+    <div class="absolute w-full z-0 hidden 2xl:block">
+        <div class="relative max-w-[var(--page-width)] mx-auto">
+            <div id="toc-wrapper" class:list={["hidden lg:block transition absolute top-0 w-[var(--toc-width)] items-center",
+                "-right-[var(--toc-width)]",
+                {"toc-hide": siteConfig.wallpaperMode.defaultMode === "banner"}]}
+            >
+                <div id="toc-inner-wrapper" class="fixed top-14 w-[var(--toc-width)] h-[calc(100vh_-_20rem)] overflow-y-scroll overflow-x-hidden hide-scrollbar">
+                    <div id="toc" class="w-full h-full transition-swup-fade">
+                        <TOC headings={headings}></TOC>
+                    </div>
                 </div>
             </div>
-        </div>}
-
-        <!-- #toc needs to exist for Swup to work normally -->
-        {!siteConfig.toc.enable && <div id="toc"></div>}
+        </div>
     </div>
-</div>
+)}
+
+<!-- 保留此元素以确保Swup正常工作 -->
+{(!siteConfig.toc.enable || isFloatTOC) && <div id="toc" class="hidden"></div>}
 </Layout>
 
 <style>
