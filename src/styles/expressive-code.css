@@ -156,3 +156,12 @@
     display: none !important;
   }
 }
+
+#decrypted-content .expressive-code pre.wrap {
+  padding: 0 !important;
+}
+
+#decrypted-content .expressive-code pre code {
+  background-color: transparent !important;
+  padding: 1rem 0 1rem 0 !important;
+}
