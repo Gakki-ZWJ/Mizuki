@@ -288,111 +288,64 @@ const jsonLd = {
                          <Markdown class="mb-6 markdown-content onload-animation">
                             <Content />
                         </Markdown>
-                        {shareConfig.enable && (
-                            <div class="p-6 bg-[var(--license-block-bg)] rounded-xl mb-6 onload-animation">
-                                <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-                                    <div class="flex items-center gap-3 flex-1">
-                                        <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-[var(--enter-btn-bg)]">
-                                            <Icon
-                                                name="material-symbols:share"
-                                                class="text-3xl text-[var(--primary)]"
-                                            />
-                                        </div>
-                                        <div class="flex flex-col gap-1">
-                                            <div class="text-[1.0rem] leading-tight text-black/75 dark:text-white/75">
-                                                {i18n(I18nKey.shareOnSocial)}
-                                            </div>
-                                            <p class="text-[0.8rem] leading-tight text-black/75 dark:text-white/75">
-                                                {i18n(I18nKey.shareOnSocialDescription)}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center gap-3">
-                                        <SharePoster
-                                            client:load
-                                            title={entry.data.title}
-                                            author={entry.data.author || profileConfig.name}
-                                            description={entry.data.description || ""}
-                                            pubDate={formatDateToYYYYMMDD(entry.data.published)}
-                                            coverImage={posterCoverUrl}
-                                            url={Astro.url.toString()}
-                                            siteTitle={siteConfig.title}
-                                            avatar={posterAvatarUrl}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-
-                        {licenseConfig.enable && (
-                            <License
-                                title={entry.data.title}
-                                id={entry.id}
-                                pubDate={entry.data.published}
-                                author={entry.data.author}
-                                sourceLink={entry.data.sourceLink}
-                                licenseName={entry.data.licenseName}
-                                licenseUrl={entry.data.licenseUrl}
-                                class="mb-6 rounded-xl license-container onload-animation"
-                            />
-                        )}
                     </Encryptor>
                 ) : (
-                    <>
-                        <Markdown class="mb-6 markdown-content onload-animation">
-                            <Content />
-                        </Markdown>
-                        {shareConfig.enable && (
-                            <div class="p-6 bg-[var(--license-block-bg)] rounded-xl mb-6 onload-animation">
-                                <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-                                    <div class="flex items-center gap-3 flex-1">
-                                        <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-[var(--enter-btn-bg)]">
-                                            <Icon
-                                                name="material-symbols:share"
-                                                class="text-3xl text-[var(--primary)]"
-                                            />
-                                        </div>
-                                        <div class="flex flex-col gap-1">
-                                            <div class="text-[1.0rem] leading-tight text-black/75 dark:text-white/75">
-                                                {i18n(I18nKey.shareOnSocial)}
-                                            </div>
-                                            <p class="text-[0.8rem] leading-tight text-black/75 dark:text-white/75">
-                                                {i18n(I18nKey.shareOnSocialDescription)}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center gap-3">
-                                        <SharePoster
-                                            client:load
-                                            title={entry.data.title}
-                                            author={entry.data.author || profileConfig.name}
-                                            description={entry.data.description || ""}
-                                            pubDate={formatDateToYYYYMMDD(entry.data.published)}
-                                            coverImage={posterCoverUrl}
-                                            url={Astro.url.toString()}
-                                            siteTitle={siteConfig.title}
-                                            avatar={posterAvatarUrl}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-
-                        {licenseConfig.enable && (
-                            <License
-                                title={entry.data.title}
-                                id={entry.id}
-                                pubDate={entry.data.published}
-                                author={entry.data.author}
-                                sourceLink={entry.data.sourceLink}
-                                licenseName={entry.data.licenseName}
-                                licenseUrl={entry.data.licenseUrl}
-                                class="mb-6 rounded-xl license-container onload-animation"
-                            />
-                        )}
-                    </>
+                    <Markdown class="mb-6 markdown-content onload-animation">
+                        <Content />
+                    </Markdown>
                 )
             }
+
+            {shareConfig.enable && (
+                <div id="share-component" class:list={["p-6 bg-[var(--license-block-bg)] rounded-xl mb-6 onload-animation", { "encrypted-hidden": isEncrypted }]}>
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div class="flex items-center gap-3 flex-1">
+                            <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-[var(--enter-btn-bg)]">
+                                <Icon
+                                    name="material-symbols:share"
+                                    class="text-3xl text-[var(--primary)]"
+                                />
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <div class="text-[1.0rem] leading-tight text-black/75 dark:text-white/75">
+                                    {i18n(I18nKey.shareOnSocial)}
+                                </div>
+                                <p class="text-[0.8rem] leading-tight text-black/75 dark:text-white/75">
+                                    {i18n(I18nKey.shareOnSocialDescription)}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <SharePoster
+                                client:load
+                                title={entry.data.title}
+                                author={entry.data.author || profileConfig.name}
+                                description={entry.data.description || ""}
+                                pubDate={formatDateToYYYYMMDD(entry.data.published)}
+                                coverImage={posterCoverUrl}
+                                url={Astro.url.toString()}
+                                siteTitle={siteConfig.title}
+                                avatar={posterAvatarUrl}
+                            />
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {licenseConfig.enable && (
+                <div id="license-component" class:list={["encrypted-hidden-wrapper", { "encrypted-hidden": isEncrypted }]}>
+                    <License
+                    title={entry.data.title}
+                    id={entry.id}
+                    pubDate={entry.data.published}
+                    author={entry.data.author}
+                    sourceLink={entry.data.sourceLink}
+                    licenseName={entry.data.licenseName}
+                    licenseUrl={entry.data.licenseUrl}
+                    class="mb-6 rounded-xl license-container onload-animation"
+                />
+                </div>
+            )}
         </div>
     </div>
 
