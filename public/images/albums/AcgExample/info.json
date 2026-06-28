@@ -1,0 +1,10 @@
+{
+	"title": "一些漂亮的照片",
+	"hidden": false,
+	"description": "世界很大，你得去探索一番.",
+	"date": "2025-11-11",
+	"location": "Bilibili",
+	"tags": ["Kawai"],
+	"layout": "masonry",
+	"columns": 3
+}
